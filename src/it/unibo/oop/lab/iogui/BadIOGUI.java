@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -79,7 +80,7 @@ public class BadIOGUI {
             public void actionPerformed(final ActionEvent e) {
                 // System.out.println("Test string from read button");
                 try {
-                    final String fileContents = Files.readString(Path.of(PATH));
+                    final String fileContents = Files.readString(new File(PATH).toPath());
                     System.out.println(fileContents);
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
