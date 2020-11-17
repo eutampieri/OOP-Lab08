@@ -1,9 +1,33 @@
 package it.unibo.oop.lab.mvcio;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+
 /**
  * 
  */
 public class Controller {
+    private File file = new File(System.getProperty("user.home") +
+            System.getProperty("file.separator") +
+            "output.txt");
+
+    public final void setFile(final File f) {
+        this.file = f;
+    }
+    public final File getFile() {
+        return this.file;
+    }
+    public final String getFilePath() {
+        return this.file.getPath();
+    }
+    public final void write(final String data) throws IOException {
+        try (PrintStream ps = new PrintStream(this.file)) {
+            ps.print(data);
+        } catch (IOException e1) {
+            throw e1;
+        }
+    }
 
     /*
      * This class must implement a simple controller responsible of I/O access. It
