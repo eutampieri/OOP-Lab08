@@ -77,10 +77,10 @@ public final class SimpleGUI {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
 
-        final JButton write = new JButton("Write on file");
-        canvas.add(write);
         final JTextArea textArea = new JTextArea("Write here...");
-        canvas.add(textArea);
+        canvas.add(textArea, BorderLayout.CENTER);
+        final JButton write = new JButton("Write on file");
+        canvas.add(write, BorderLayout.SOUTH);
 
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -126,7 +126,7 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
-        frame.pack();
+        //frame.pack();
         /*
          * OK, ready to pull the frame onscreen
          */

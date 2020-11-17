@@ -8,9 +8,10 @@ import java.io.PrintStream;
  * 
  */
 public class Controller {
-    private File file = new File(System.getProperty("user.home") +
+    private static final String DEFAULT_PATH = System.getProperty("user.home") +
             System.getProperty("file.separator") +
-            "output.txt");
+            "output.txt";
+    private File file = new File(DEFAULT_PATH);
 
     public final void setFile(final File f) {
         this.file = f;
