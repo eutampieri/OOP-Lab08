@@ -38,9 +38,10 @@ public class MiniGUI {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
         final JPanel newPanel = new JPanel();
-        newPanel.setLayout(new BoxLayout(newPanel, 0));
+        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.X_AXIS));
         final JButton write = new JButton("Print a random number on standard output");
-        newPanel.add(write, BorderLayout.CENTER);
+
+        newPanel.add(write);
         canvas.add(newPanel, BorderLayout.CENTER);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,8 +52,8 @@ public class MiniGUI {
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                final Integer randomNumber = rng.nextInt();
-                result.setText(randomNumber.toString());
+                final int randomNumber = rng.nextInt();
+                result.setText(Integer.toString(randomNumber));
                 System.out.println(randomNumber);
             }
         });
