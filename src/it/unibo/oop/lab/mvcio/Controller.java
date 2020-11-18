@@ -3,6 +3,7 @@ package it.unibo.oop.lab.mvcio;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
 
 /**
  * 
@@ -21,6 +22,9 @@ public class Controller {
     }
     public final String getFilePath() {
         return this.file.getPath();
+    }
+    public final String read() throws IOException {
+        return Files.readString(this.file.toPath());
     }
     public final void write(final String data) throws IOException {
         try (PrintStream ps = new PrintStream(this.file)) {

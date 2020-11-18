@@ -1,22 +1,58 @@
 package it.unibo.oop.lab.mvcio2;
 
+import it.unibo.oop.lab.mvcio.SimpleGUI;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+
 /**
  * A very simple program using a graphical interface.
  * 
  */
-public final class SimpleGUIWithFileChooser {
+public final class SimpleGUIWithFileChooser extends SimpleGUI {
+    private final JTextField filePath;
+
+    public  SimpleGUIWithFileChooser() {
+        super();
+
+        final JPanel fileChooserPanel = new JPanel(new BorderLayout());
+        filePath = new JTextField();
+        filePath.setEnabled(false);
+        this.loadFile();
+        fileChooserPanel.add(filePath, BorderLayout.CENTER);
+
+        final JButton browseBtn = new JButton("Browse");
+        fileChooserPanel.add(browseBtn, BorderLayout.LINE_END);
+        this.canvas.add(fileChooserPanel, BorderLayout.NORTH);
+
+        browseBtn.addActionListener((ev) -> {
+            final JFileChooser fileChooser = new JFileChooser();
+            final int result = fileChooser.showSaveDialog(this.canvas);
+            if(result == JFileChooser.APPROVE_OPTION) {
+                this.fileController.setFile(fileChooser.getSelectedFile());
+                this.loadFile();
+            } else if(result != JFileChooser.CANCEL_OPTION) {
+                JOptionPane.showMessageDialog(frame, "An unknown error has occurred","Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+    }
+
+    private void loadFile() {
+        try {
+            this.filePath.setText(this.fileController.getFilePath());
+            if(this.fileController.getFile().exists()) {
+                this.textArea.setText(this.fileController.read());
+            }
+        } catch (IOException e1) {
+            JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
+            e1.printStackTrace();
+        }
+    }
+
 
     /*
      * TODO: Starting from the application in mvcio:
-     * 
-     * 1) Add a JTextField and a button "Browse..." on the upper part of the
-     * graphical interface.
-     * Suggestion: use a second JPanel with a second BorderLayout, put the panel
-     * in the North of the main panel, put the text field in the center of the
-     * new panel and put the button in the line_end of the new panel.
-     * 
-     * 2) The JTextField should be non modifiable. And, should display the
-     * current selected file.
      * 
      * 3) On press, the button should open a JFileChooser. The program should
      * use the method showSaveDialog() to display the file chooser, and if the
@@ -26,10 +62,13 @@ public final class SimpleGUIWithFileChooser {
      * shown telling the user that an error has occurred (use
      * JOptionPane.showMessageDialog()).
      * 
-     * 4) When in the controller a new File is set, also the graphical interface
-     * must reflect such change. Suggestion: do not force the controller to
+     * 4) When in the controller a new File is set, the graphical interface
+     * must reflect such change too. Suggestion: do not force the controller to
      * update the UI: in this example the UI knows when should be updated, so
      * try to keep things separated.
      */
 
+    public static void main(final String... args) {
+        new SimpleGUIWithFileChooser().display();
+    }
 }
