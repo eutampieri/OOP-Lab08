@@ -24,13 +24,13 @@ import it.unibo.oop.lab.iogui.BadIOGUI;
  * A very simple program using a graphical interface.
  * 
  */
-public class SimpleGUI {
+public final class SimpleGUI {
 
-    protected final JFrame frame = new JFrame();
-    protected final Controller fileController = new Controller();
+    private final JFrame frame = new JFrame();
+    private final Controller fileController = new Controller();
     private static final int PROPORTION = 5;
-    protected final JPanel canvas = new JPanel();
-    protected final JTextArea textArea;
+    private final JPanel canvas = new JPanel();
+    private final JTextArea textArea;
 
     /*
      * Once the Controller is done, implement this class in such a way that:
@@ -109,7 +109,7 @@ public class SimpleGUI {
         });
     }
 
-    protected void display() {
+    public void display() {
         /*
          * Make the frame one fifth the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -133,6 +133,22 @@ public class SimpleGUI {
          * OK, ready to pull the frame onscreen
          */
         frame.setVisible(true);
+    }
+
+    public Controller getFileController() {
+        return this.fileController;
+    }
+
+    public void setTextAreaText(String text) {
+        this.textArea.setText(text);
+    }
+
+    public JPanel getCanvas() {
+        return this.canvas;
+    }
+
+    public JFrame getFrame() {
+        return this.frame;
     }
 
     public static void main(final String... args) {

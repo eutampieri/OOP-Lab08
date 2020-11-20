@@ -10,11 +10,12 @@ import java.io.IOException;
  * A very simple program using a graphical interface.
  * 
  */
-public final class SimpleGUIWithFileChooser extends SimpleGUI {
+public final class SimpleGUIWithFileChooser {
     private final JTextField filePath;
+    private final SimpleGUI simpleGUI;
 
     public  SimpleGUIWithFileChooser() {
-        super();
+        this.simpleGUI = new SimpleGUI();
 
         final JPanel fileChooserPanel = new JPanel(new BorderLayout());
         filePath = new JTextField();
@@ -24,33 +25,33 @@ public final class SimpleGUIWithFileChooser extends SimpleGUI {
 
         final JButton browseBtn = new JButton("Browse");
         fileChooserPanel.add(browseBtn, BorderLayout.LINE_END);
-        this.canvas.add(fileChooserPanel, BorderLayout.NORTH);
+        this.simpleGUI.getCanvas().add(fileChooserPanel, BorderLayout.NORTH);
 
         browseBtn.addActionListener((ev) -> {
             final JFileChooser fileChooser = new JFileChooser();
-            final int result = fileChooser.showSaveDialog(this.canvas);
+            final int result = fileChooser.showSaveDialog(this.simpleGUI.getCanvas());
             if(result == JFileChooser.APPROVE_OPTION) {
-                this.fileController.setFile(fileChooser.getSelectedFile());
+                this.simpleGUI.getFileController().setFile(fileChooser.getSelectedFile());
                 this.loadFile();
             } else if(result != JFileChooser.CANCEL_OPTION) {
-                JOptionPane.showMessageDialog(frame, "An unknown error has occurred","Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this.simpleGUI.getFrame(), "An unknown error has occurred","Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
 
     private void loadFile() {
         try {
-            this.filePath.setText(this.fileController.getFilePath());
-            if(this.fileController.getFile().exists()) {
-                this.textArea.setText(this.fileController.read());
+            this.filePath.setText(this.simpleGUI.getFileController().getFilePath());
+            if(this.simpleGUI.getFileController().getFile().exists()) {
+                this.simpleGUI.setTextAreaText(this.simpleGUI.getFileController().read());
             }
         } catch (IOException e1) {
-            JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this.simpleGUI.getFrame(), e1, "Error", JOptionPane.ERROR_MESSAGE);
             e1.printStackTrace();
         }
     }
 
     public static void main(final String... args) {
-        new SimpleGUIWithFileChooser().display();
+        new SimpleGUIWithFileChooser().simpleGUI.display();
     }
 }
