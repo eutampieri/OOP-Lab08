@@ -20,17 +20,19 @@ public final class YAMLParser {
     }
 
     public YAMLParser(final String yaml) {
-        this.result = List.of(yaml.replace(": ", ":").split("\n")).stream().map((s) -> {
-            return s.split(":");
-            })
-        .map((e) -> {
-            return new Pair<>(e[0], Integer.parseInt(e[1]));
-        })
-        .collect(Collectors.toMap((o) -> {
-            return o.a;
-        }, (o) -> {
-            return o.b;
-        }));
+        this.result = List.of(yaml.replace(": ", ":")
+                .split("\n"))
+                .stream().map((s) -> {
+                    return s.split(":");
+                })
+                .map((e) -> {
+                    return new Pair<>(e[0], Integer.parseInt(e[1]));
+                })
+                .collect(Collectors.toMap((o) -> {
+                    return o.a;
+                }, (o) -> {
+                    return o.b;
+                }));
     }
     public Map<String, Integer> getResult() {
         return this.result;
