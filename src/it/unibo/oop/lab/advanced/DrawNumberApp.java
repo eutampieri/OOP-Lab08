@@ -1,5 +1,12 @@
 package it.unibo.oop.lab.advanced;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
@@ -14,7 +21,11 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * 
      */
     public DrawNumberApp() {
-        this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
+        final InputStream in = ClassLoader.getSystemResourceAsStream("config.yml");
+        final BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        final String yaml = br.lines().collect(Collectors.joining("\n"));
+        final Map<String, Integer> config = new YAMLParser(yaml).getResult();
+        this.model = new DrawNumberImpl(config.get("minimum"), config.get("maximum"), config.get("attempts"));
         this.view = new DrawNumberViewImpl();
         this.view.setObserver(this);
         this.view.start();
@@ -47,7 +58,6 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      *            ignored
      */
     public static void main(final String... args) {
-        new YAMLParser<Integer>("a: 1");
         new DrawNumberApp();
     }
 
