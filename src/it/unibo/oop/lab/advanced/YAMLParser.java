@@ -20,8 +20,8 @@ public final class YAMLParser {
     }
 
     public YAMLParser(final String yaml) {
-        this.result = List.of(yaml.replace(": ", ":").split("/\n/g")).stream().map((s) -> {
-            return s.split("/:/g");
+        this.result = List.of(yaml.replace(": ", ":").split("\n")).stream().map((s) -> {
+            return s.split(":");
             })
         .map((e) -> {
             return new Pair<>(e[0], Integer.parseInt(e[1]));
