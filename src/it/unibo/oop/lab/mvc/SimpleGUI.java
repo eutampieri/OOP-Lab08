@@ -1,9 +1,16 @@
 package it.unibo.oop.lab.mvc;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.function.BinaryOperator;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * A very simple program using a graphical interface.
@@ -12,11 +19,12 @@ import javax.swing.JFrame;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
+    private final Controller stdoutPrinting = new ControllerImpl();
 
     /*
      * Once the Controller is done, implement this class in such a way that:
      * 
-     * 1) I has a main method that starts the graphical application
+     * 1) It has a main method that starts the graphical application
      * 
      * 2) In its constructor, sets up the whole view
      * 
@@ -60,6 +68,47 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        final JPanel main = new JPanel();
+        main.setLayout(new BorderLayout());
+        final JTextField input = new JTextField("Write here");
+        final JTextArea history = new JTextArea();
+        main.add(input, BorderLayout.NORTH);
+        main.add(history, BorderLayout.CENTER);
+
+        final JPanel buttons = new JPanel();
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.LINE_AXIS));
+
+        final JButton historyBtn = new JButton("Show history");
+        final JButton printBtn = new JButton("Print");
+        buttons.add(historyBtn);
+        buttons.add(printBtn);
+
+        historyBtn.addActionListener((e) -> {
+            history.setText(this.stdoutPrinting.getHistory()
+                    .stream().
+                    reduce((s1, s2) -> {
+                        return s1 + "\n" + s2;
+                    })
+                    .orElse(""));
+        });
+        printBtn.addActionListener((e) -> {
+            this.stdoutPrinting.enqueueString(input.getText());
+            this.stdoutPrinting.printCurrent();
+        });
+
+        main.add(buttons, BorderLayout.SOUTH);
+
+        frame.add(main);
+
+        //frame.pack();
+        frame.setVisible(true);
+    }
+
+    public static void main(final String... args) {
+        new SimpleGUI();
     }
 
 }
