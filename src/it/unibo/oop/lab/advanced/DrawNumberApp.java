@@ -47,6 +47,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      *            ignored
      */
     public static void main(final String... args) {
+        new YAMLParser<Integer>("a: 1");
         new DrawNumberApp();
     }
 
