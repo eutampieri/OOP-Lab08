@@ -20,7 +20,7 @@ public final class YAMLParser {
     }
 
     public YAMLParser(final String yaml) {
-        this.result = List.of(yaml.replace(": ", ":")
+        this.result = List.of(yaml.replace("\s*:\s*", ":")
                 .split("\n"))
                 .stream().map((s) -> {
                     return s.split(":");
